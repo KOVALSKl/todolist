@@ -1,15 +1,33 @@
-import React from "react";
+import React, { useEffect, useMemo, useState } from "react";
 import CustomButton from "../UI/buttons/CustomButton";
 import cl from "./styles/Task.module.css"
 
-function Task({ title, body, date }) {
+function Task(props) {
+
+    const [title, setTitle] = useState(props.title);
+    const [body, setBody] = useState(props.body);
+
+    useEffect(() => {
+        props.setChanges({
+            title: title,
+            body: body,
+            id: props.id,
+        });
+    }, [title, body]);
+
     return (
         <div className={cl.tsk}>
             <div className={cl.tskHeader}>
                 <div className={cl.tskTitle}>
-                    <input value={title} />
-                    <span>{date.toLocaleTimeString()}</span><br/>
-                    <span>{date.toLocaleDateString()}</span>
+                    <input
+                        value={title}
+                        placeholder="Название задачи..."
+                        onChange={(e) => {
+                            setTitle(e.target.value);
+                        }}
+                    />
+                    <span>{props.time}</span><br />
+                    <span>{props.date}</span>
                 </div>
                 <div className={cl.tskButtons}>
                     <CustomButton
@@ -23,9 +41,13 @@ function Task({ title, body, date }) {
                 </div>
             </div>
             <div className={cl.tskBody}>
-                <textarea value={body} onInput={(e) => {
-                    console.log(e.target);
-                }}/>
+                <textarea
+                    value={body}
+                    placeholder="Условие задачи..."
+                    onChange={(e) => {
+                        setBody(e.target.value);
+                    }}
+                />
             </div>
         </div>
     )

@@ -1,11 +1,39 @@
-import React from "react";
+import React, { useState } from "react";
 import cl from "./styles/TaskList.module.css"
 import Task from "./Task";
+import CustomButton from "../UI/buttons/CustomButton"
 
-function TaskList({ tasks }) {
+function TaskList(props) {
+
+    const [tasks, setTasks] = useState(props.tasks);
+
+    const addNewTask = (e) => {
+        e.preventDefault();
+        let date = new Date();
+        const newTask = {
+            title: '',
+            body: '',
+            id: Date.now(),
+            time: date.toLocaleTimeString(),
+            date: date.toLocaleDateString(),
+        }
+        setTasks([...tasks, newTask]);
+    }
+
+    const setChanges = (changedTask) => {
+        let [task] = tasks.filter(item => item.id === changedTask.id)
+        task.title = changedTask.title;
+        task.body = changedTask.body;
+        saveToLocalStorage();
+    }
+
+    const saveToLocalStorage = () => {
+        localStorage.setItem("tasks", JSON.stringify(tasks));
+    }
+
     return (
         <div className={cl.tskList}>
-            {tasks.length === 0
+            {tasks === null
                 ? <div className={cl.emptyMsg}>Нет активных задач</div>
                 : tasks.map((task) => {
                     return (
@@ -13,10 +41,19 @@ function TaskList({ tasks }) {
                             title={task.title}
                             body={task.body}
                             date={task.date}
+                            time={task.time}
+                            id={task.id}
                             key={task.id}
+                            setChanges={setChanges}
                         />
                     )
                 })}
+            <CustomButton
+                value="Add"
+                img="https://img.icons8.com/external-dreamstale-lineal-dreamstale/100/000000/external-add-ui-dreamstale-lineal-dreamstale.png"
+                className={cl.addBtn}
+                onClick={addNewTask}
+            />
         </div>
     );
 }

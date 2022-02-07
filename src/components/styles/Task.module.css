@@ -3,7 +3,7 @@
     background-color:#17204e;
     display: flex;
     flex-direction: column;
-    max-width: 100%;
+    width: 400px;
     border-radius: 10px;
     box-shadow: 0px 10px 20px #000;
     font-family: Arial, Helvetica, sans-serif;
@@ -26,7 +26,6 @@
     border: none;
     font-size: 22px;
     color: rgba(255,255,255,0.9);
-    width: 80%;
 }
 
 .tskTitle span {
