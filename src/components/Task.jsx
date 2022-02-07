@@ -37,6 +37,9 @@ function Task(props) {
                     <CustomButton
                         value="Delete"
                         img="https://img.icons8.com/small/128/000000/filled-trash.png"
+                        onClick={(e) => {
+                            props.deleteTask(props.id);
+                        }}
                     />
                 </div>
             </div>

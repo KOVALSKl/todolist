@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import cl from "./styles/TaskList.module.css"
 import Task from "./Task";
 import CustomButton from "../UI/buttons/CustomButton"
@@ -20,16 +20,24 @@ function TaskList(props) {
         setTasks([...tasks, newTask]);
     }
 
+    const deleteTask = (id) => {
+        setTasks(tasks.filter(task => task.id !== id));
+    }
+
     const setChanges = (changedTask) => {
         let [task] = tasks.filter(item => item.id === changedTask.id)
         task.title = changedTask.title;
         task.body = changedTask.body;
-        saveToLocalStorage();
+        setTasks(tasks);
     }
 
     const saveToLocalStorage = () => {
         localStorage.setItem("tasks", JSON.stringify(tasks));
     }
+
+    useEffect(() => {
+        saveToLocalStorage();
+    }, [tasks])
 
     return (
         <div className={cl.tskList}>
@@ -45,6 +53,7 @@ function TaskList(props) {
                             id={task.id}
                             key={task.id}
                             setChanges={setChanges}
+                            deleteTask={deleteTask}
                         />
                     )
                 })}

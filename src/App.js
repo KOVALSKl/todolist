@@ -1,7 +1,6 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useState } from "react";
 import cl from "./App.module.css"
 import TaskList from "./components/TaskList";
-import CustomButton from "./UI/buttons/CustomButton"
 
 function App() {
 
